@@ -1,0 +1,6 @@
+./.docker
+/initdb
+docker-compose.yml
+dockerfile
+entrypoint.sh
+*.deb
