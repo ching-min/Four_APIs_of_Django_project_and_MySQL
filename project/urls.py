@@ -15,28 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-#from .views import ArticleViewSet, ObtainJWTToken
 from .views import ArticleCreateView, ArticleDeleteView, ArticleUpdateView, ArticleRetrieveView
-#from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 
 urlpatterns = [
-	#path('items/', ArticleViewSet.as_view(), name='mymodel-list-create'),
-	#path('items/<int:pk>/', ArticleViewSet.as_view(), name='item-retrieve-update-destroy'),
-    #path('items/', ArticleViewSet, name='mymodel-list-create'),
-	#path('items/<int:pk>/', ArticleViewSet, name='item-retrieve-update-destroy'),
-	#path('get-token/', ObtainJWTToken.as_view(), name='get-token'),
-    # Define more URL patterns for your other views here
-    path('admin/', admin.site.urls),
-	#path('', include('api_views.urls'))
-	#path('api/token/', obtain_jwt_token, name='obtain_jwt_token'),  # Obtain JWT token
-    #path('api/token/refresh/', refresh_jwt_token, name='refresh_jwt_token'),  # Refresh JWT token
+	#path('admin/', admin.site.urls),
 	path('api/token/', TokenObtainPairView.as_view(), name='obtain_jwt_token'),  # Obtain JWT token
     path('api/token/refresh/', TokenRefreshView.as_view(), name='refresh_jwt_token'),  # Refresh JWT token   
-	path('api/articles/create/', ArticleCreateView.as_view(), name='article-create'),
-	path('api/articles/delete/', ArticleDeleteView.as_view(), name='article-delete'),
-	path('api/articles/update/', ArticleUpdateView.as_view(), name='article-update'),
-	path('api/articles/retrieve/', ArticleRetrieveView.as_view(), name='article-retrieve'),
+	path('api/articles/create/', ArticleCreateView.as_view(), name='article-create'), # create a new article
+	path('api/articles/delete/', ArticleDeleteView.as_view(), name='article-delete'), # delete an article by "date"
+	path('api/articles/update/', ArticleUpdateView.as_view(), name='article-update'), # modify an article, search by "date"
+	path('api/articles/retrieve/', ArticleRetrieveView.as_view(), name='article-retrieve'), # retrieve the content of an article, search by "date"
 
 ]

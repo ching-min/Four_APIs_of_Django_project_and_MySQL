@@ -6,4 +6,3 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model  = Articles
         fields = ["date", "title", "content", "tags"]
-		#['date', 'author','title','href','pushcount','content']

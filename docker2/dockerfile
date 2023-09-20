@@ -1,0 +1,30 @@
+# Use the official Ubuntu image as the base
+FROM ubuntu:20.04
+
+# Update package lists and install necessary packages
+RUN apt-get update && \
+    apt-get install -y systemd python3.7 python3-pip mysql-server  libmysqlclient-dev && \  
+    apt-get clean
+
+# Copy your Django project into the container
+COPY . /app
+COPY entrypoint.sh /entrypoint.sh
+WORKDIR /app
+
+# Install project requirements
+RUN pip install -r requirements.txt
+
+# Initialize the MySQL database and run Django migrations (modify as needed)
+RUN service mysql start && \
+    mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH 'mysql_native_password' BY '1234567'" && \
+    mysql -u root -p1234567 -e "CREATE DATABASE articles" && \
+	systemctl enable mysql.service 
+
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+
+# Expose the Django development server port
+EXPOSE 8000
+
+# Command to run the development server
+CMD ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
