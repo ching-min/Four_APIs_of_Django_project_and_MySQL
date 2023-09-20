@@ -79,7 +79,7 @@ docker compose build
 docker compose up
 ```
 
-2. (In `./docker2`) In this case, I build an ubuntu docker image with python 3.7 and MySQL in it.
+2. (In `./docker2`) In this case, I built an ubuntu docker image with python 3.7 and MySQL in it.
 * docker build 
 ```
 cp ./docker2/* .
