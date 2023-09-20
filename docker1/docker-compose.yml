@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  web:
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    depends_on:
+      - mysql
+    environment:
+      - DJANGO_SETTINGS_MODULE=project.settings
+    command: ["./entrypoint.sh"]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - mynetwork  # Use a custom network named 'mynetwork'
+      
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234567
+      MYSQL_DATABASE: articles
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "mysql", "-u", "root", "-p1234567"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+    networks:
+      - mynetwork  # Use a custom network named 'mynetwork'
+      
+networks:
+  mynetwork:
+    driver: bridge

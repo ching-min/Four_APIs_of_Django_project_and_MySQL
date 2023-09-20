@@ -1,5 +1,7 @@
 # Four APIs of Django project and MySQL
 
+This project is implemented based on Django basic project.
+
 ## Version Information
 * python 3.7
 * Django 3.2
@@ -24,7 +26,7 @@
 	python manage.py migrate
 	python manage.py runserver
 	``` 
-7. Get the JWT token first. I have set the superuser, `username="user1"`, `password="a135791a"`
+7. Get the JWT token first. I have set the superuser, `username="user1"`, `password="a135791a"`. The expired days is set as 100 days.
 ```POST http://localhost:8000/api/token/```
 
 ![Token.](/img/token.png "Token.")
@@ -64,3 +66,26 @@ get the article by `date`.
 
 ![Retrieve.](/img/retrieve.png "Retrieve.")
 
+## Docker test
+I tried two methods to build docker, each method both build through docker in Win10 and docker in Ubuntu 22.04.3 but both failed. The two methods are both failed in MySQL connection.
+1. (In `./docker1/`) In this case, I tried to create two containers, one is python container to run the Django project, the other one is MySQL container to have MySQL database. When start the container using docker compose, it will also start the MySQL service through the entrypoint.sh script defined in the web service.  
+* docker build 
+```
+cp ./docker1/* .
+docker compose build 
+```
+* docker usage
+```
+docker compose up
+```
+
+2. (In `./docker2`) In this case, I built an ubuntu docker image with python 3.7 and MySQL in it.
+* docker build 
+```
+cp ./docker2/* .
+docker build -t my-django-app . 
+```
+* docker usage
+```
+docker run -t --name django-app-container -p 8000:8000 my-django-app
+```
